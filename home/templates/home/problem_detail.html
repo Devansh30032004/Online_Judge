@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ problem.title }}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 20px;
+        }
+        .problem-container {
+            max-width: 800px;
+            margin: auto;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .code-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+        }
+        pre {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .copy-btn {
+            float: right;
+            margin-bottom: 10px;
+        }
+        .output-box {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+<!--Navigation Bar-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Online Judge</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'problem_list' %}">Problems</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'submission-list' %}">Submissions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'submit_code' problem.id %}">Submit</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'run_code' %}?problem={{ problem.id }}">Run</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+    <div class="container">
+        <div class="problem-container">
+            <h1 class="display-4 text-center">{{ problem.title }}</h1>
+            <p class="lead">{{ problem.description }}</p>
+
+            {% for pair in base_io_pairs %}
+                <h2>Sample Input {{ forloop.counter }}</h2>
+                <button class="btn btn-secondary copy-btn" onclick="copyToClipboard('input-{{ forloop.counter }}')">Copy</button>
+                <pre id="input-{{ forloop.counter }}">{{ pair.0 }}</pre>
+
+                <h2>Sample Output {{ forloop.counter }}</h2>
+                <pre id="output-{{ forloop.counter }}">{{ pair.1 }}</pre>
+            {% endfor %}
+
+            <h2>Time Limit</h2>
+            <p>{{ problem.time_limit }} seconds</p>
+
+            <h2>Memory Limit</h2>
+            <p>{{ problem.memory_limit }} KB</p>
+
+            <h2>Constraints</h2>
+            <p>{{ problem.constraints }}</p>
+        </div>
+
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function copyToClipboard(elementId) {
+            var copyText = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(copyText).then(function() {
+                alert('Copied to clipboard');
+            }, function(err) {
+                alert('Failed to copy: ', err);
+            });
+        }
+    </script>
+</body>
+</html>

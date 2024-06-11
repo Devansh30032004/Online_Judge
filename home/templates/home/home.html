@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Judge</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 60px;
+            background-image: url('https://www.toptal.com/designers/subtlepatterns/patterns/dark-fish-skin.png');
+            background-size: cover;
+            background-repeat: repeat;
+            color: #fff;
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .jumbotron {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2rem 1rem;
+        }
+        .alert {
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- CSRF Token -->
+    {% csrf_token %}
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <a class="navbar-brand" href="{% url 'home' %}">Online Judge</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'problem_list' %}">Problems</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'submission-list' %}">Submissions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'run_code' %}">Custom Test</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <span class="navbar-text">Welcome, {{ user.username }}!</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    <div class="container">
+        {% if messages %}
+            <div class="row">
+                <div class="col-md-12">
+                    {% for message in messages %}
+                        <div class="alert alert-info" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="display-4">Welcome to the Online Judge</h1>
+            <p>Your gateway to the world of coding and programming challenges!</p>
+            <p>Are you ready to embark on an exciting journey of problem-solving, learning, and skill development? Whether you're a seasoned coder or just starting out, Online Judge provides a diverse range of coding challenges, exercises, and competitions to test your skills, expand your knowledge, and connect with a vibrant community of like-minded individuals.</p>
+            <hr class="my-4">
+            <h2>Why Choose Online Judge?</h2>
+        <ul>
+            <li><strong>Diverse Challenges:</strong> Explore a wide array of coding challenges spanning various difficulty levels, topics, and languages. From algorithmic puzzles to real-world projects, there's something for everyone.</li>
+            <li><strong>Learn and Grow:</strong> Sharpen your coding skills, learn new programming languages, and deepen your understanding of computer science concepts through hands-on practice and experimentation.</li>
+            <li><strong>Compete and Collaborate:</strong> Participate in coding competitions, hackathons, and collaborative coding projects to challenge yourself, showcase your talent, and collaborate with fellow enthusiasts from around the globe.</li>
+            <li><strong>Community Engagement:</strong> Engage with a supportive and diverse community of developers, mentors, and learners. Share insights, seek help, and celebrate achievements together.</li>
+            <li><strong>Career Opportunities:</strong> Gain valuable experience, build a strong portfolio, and unlock exciting career opportunities in tech by showcasing your skills and accomplishments on Online Judge.</li>
+        </ul>
+        <h2>Get Started Today!</h2>
+        <p>Ready to take the plunge? <a class="btn btn-primary btn-lg" href="{% url 'register' %}" style="font-weight: bold;" role="button">Sign up</a> for a free account and start your coding journey with Online Judge today! Whether you're here to learn, compete, or simply have fun, we're excited to have you on board.</p>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+

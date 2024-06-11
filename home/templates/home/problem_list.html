@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Code Ladder</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 20px;
+            background-color: #f5f5f5;
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .problem-list-container {
+            max-width: 800px;
+            margin: auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .problem-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            transition: background 0.3s;
+        }
+        .problem-item:hover {
+            background: #e9ecef;
+        }
+        .problem-link {
+            text-decoration: none;
+            color: #333;
+        }
+        .problem-link h5 {
+            margin-bottom: 10px;
+        }
+        .page-title {
+            font-weight: bold;
+            font-size: 2.5rem;
+        }
+        .easy {
+            color: green;
+        }
+        .medium {
+            color: red;
+        }
+        .hard {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Online Judge</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'problem_list' %}">Problems</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'submission-list' %}">Submissions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'run_code' %}">Custom Test</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="{% url 'profile' %}">Profile</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container problem-list-container">
+        <h1 class="page-title text-center">Code Ladder</h1>
+        <div class="list-group">
+            {% for problem in problems %}
+            <a href="{% url 'problem_detail' problem.pk %}" class="list-group-item list-group-item-action problem-item problem-link">
+                <h5 class="mb-1">
+                    <span class="{% if problem.difficulty == 'easy' %}easy{% elif problem.difficulty == 'medium' %}medium{% elif problem.difficulty == 'hard' %}hard{% endif %}">
+                        ({% if problem.difficulty == 'easy' %}Easy{% elif problem.difficulty == 'medium' %}Medium{% elif problem.difficulty == 'hard' %}Hard{% endif %})
+                    </span>
+                    {{ problem.title }}
+                </h5>
+                <p class="mb-1">{{ problem.description|truncatewords:20 }}</p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

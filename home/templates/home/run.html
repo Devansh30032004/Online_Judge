@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Run Code</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+        select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button[type="submit"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        h2 {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Run Code</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="id_language">Select Language:</label>
+        <select name="language" id="id_language">
+            {% for choice in form.language.field.choices %}
+                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+            {% endfor %}
+        </select>
+        <label for="id_code">Enter Code:</label>
+        <textarea name="code" id="id_code" rows="10"></textarea>
+        <label for="id_input_data">Input Data (Optional):</label>
+        <textarea name="input_data" id="id_input_data" rows="5"></textarea>
+        <button type="submit">Run</button>
+    </form>
+    {% if output %}
+        <h2>Output:</h2>
+        <pre>{{ output }}</pre>
+        <h2>Time Taken: {{ time_taken }} seconds</h2>
+        <h2>Memory Used: {{ memory_used }} KB</h2>
+    {% endif %}
+
+    <a href="{% url 'home' %}" class="back-link">Back to Home</a>
+</body>
+</html>

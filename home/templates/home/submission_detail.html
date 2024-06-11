@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submission Detail</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+            position: relative;
+        }
+        .verdict {
+            font-weight: bold;
+            color: #d9534f; /* Default color for errors */
+        }
+        .verdict.accepted {
+            color: #5cb85c; /* Green for accepted submissions */
+        }
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #337ab7;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .info-table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+        .info-table th, .info-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .info-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Submission Detail for {{ submission.problem.title }}</h1>
+
+    <table class="info-table">
+        <tr>
+            <th>Submitted by</th>
+            <td>{{ submission.user.username }}</td>
+        </tr>
+        <tr>
+            <th>Language</th>
+            <td>{{ submission.language }}</td>
+        </tr>
+        <tr>
+            <th>Time Taken</th>
+            <td>{{ submission.time_taken }} seconds</td>
+        </tr>
+        <tr>
+            <th>Memory Used</th>
+            <td>{{ submission.memory_used }} KB</td>
+        </tr>
+        <tr>
+            <th>Verdict</th>
+            <td>
+                {% if submission.verdict == 'Accepted' %}
+                    <span class="verdict accepted">{{ submission.verdict }}</span>
+                {% else %}
+                    <span class="verdict">{{ submission.verdict }}</span>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+
+    <h2>Code:</h2>
+    <div style="position: relative;">
+        <pre id="codeBlock">{{ submission.code }}</pre>
+        <button class="copy-button" onclick="copyCode()">Copy</button>
+    </div>
+
+    <!-- Link to go back to the problem detail page -->
+    <a href="{% url 'problem_detail' submission.problem.id %}" class="back-link">Back to Problem Detail</a>
+
+    <script>
+        function copyCode() {
+            // Get the code block text
+            var code = document.getElementById('codeBlock').innerText;
+            // Create a temporary textarea element
+            var tempTextarea = document.createElement('textarea');
+            tempTextarea.value = code;
+            document.body.appendChild(tempTextarea);
+            // Select the text in the textarea
+            tempTextarea.select();
+            // Copy the text to the clipboard
+            document.execCommand('copy');
+            // Remove the temporary textarea element
+            document.body.removeChild(tempTextarea);
+            // Optionally, display a message indicating that the code was copied
+            alert('Code copied to clipboard!');
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

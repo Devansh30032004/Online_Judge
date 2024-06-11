@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ user.username }}'s Profile</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #007bff;
+            color: white;
+            font-size: 5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .chart-container {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Online Judge</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'problem_list' %}">Problems</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'submission-list' %}">Submissions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'run_code' %}">Custom Test</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="profile-container">
+        <h1>{{ user.username }}'s Profile</h1>
+        <div class="text-center">
+            {% if profile.profile_picture %}
+                <img src="{{ profile.profile_picture.url }}" class="profile-pic" alt="Profile Picture">
+            {% else %}
+                <div class="profile-pic">{{ user.username|first|upper }}</div>
+            {% endif %}
+        </div>
+        <h3>Details</h3>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>First Name:</strong> {{ user.first_name }}</p>
+        <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+        <h3>Statistics</h3>
+        <p><strong>Total Submissions:</strong> {{ total_submissions }}</p>
+        <p><strong>Correct Submissions:</strong> {{ correct_submissions }}</p>
+        <p><strong>Wrong Submissions:</strong> {{ wrong_submissions }}</p>
+        <p><strong>Accuracy:</strong> {{ accuracy }}%</p>
+        <div class="chart-container">
+            <canvas id="submissionChart"></canvas>
+        </div>
+        <h3>Update Profile Picture</h3>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ctx = document.getElementById('submissionChart').getContext('2d');
+            var submissionChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Correct Submissions', 'Wrong Submissions'],
+                    datasets: [{
+                        data: [{{ correct_submissions }}, {{ wrong_submissions }}],
+                        backgroundColor: ['#28a745', '#dc3545'],
+                        hoverBackgroundColor: ['#218838', '#c82333']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: 'Submission Statistics'
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
