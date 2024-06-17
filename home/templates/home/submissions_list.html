@@ -81,6 +81,12 @@
         .navbar-toggler-icon {
             background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath stroke="rgba%2852, 58, 64, 0.5%29" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"/%3E%3C/svg%3E');
         }
+        .table-success {
+            background-color: #d4edda;
+        }
+        .table-danger {
+            background-color: #f8d7da;
+        }
     </style>
 </head>
 <body>
@@ -99,7 +105,7 @@
                     <a class="nav-link" href="{% url 'problem_list' %}">Problems</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'submission-list' %}">Submissions</a>
+                    <a class="nav-link active" href="{% url 'submission-list' %}">Submissions</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'run_code' %}">Custom Test</a>
@@ -111,7 +117,7 @@
         </div>
     </nav>
 
-    <table>
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>ID</th>
@@ -127,7 +133,7 @@
         </thead>
         <tbody>
             {% for submission in submissions %}
-                <tr>
+                <tr class="{% if submission.verdict == 'Accepted' %}table-success{% else %}table-danger{% endif %}">
                     <td>{{ submission.id }}</td>
                     <td>{{ submission.user.username }}</td>
                     <td>{{ submission.problem.title }}</td>
@@ -166,3 +172,4 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+

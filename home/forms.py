@@ -60,4 +60,8 @@ class CodeSubmissionForm(forms.ModelForm):
 class ProfilePictureForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['user','profile_picture',]
+        fields = ['user','profile_picture']
+
+    def __init__(self, *args, **kwargs):
+        super(ProfilePictureForm, self).__init__(*args, **kwargs)
+        self.fields['user'].widget = forms.HiddenInput()

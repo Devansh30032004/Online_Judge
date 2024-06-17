@@ -24,10 +24,27 @@
             justify-content: center;
             align-items: center;
             margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .profile-pic img {
+            width: 100%;
+            height: auto;
         }
         .chart-container {
             width: 100%;
             height: 400px;
+        }
+        .details-table, .statistics-table {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .details-table th, .statistics-table th {
+            background-color: purple;
+            color: white;
+        }
+        .details-table td, .statistics-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
         }
     </style>
 </head>
@@ -53,39 +70,75 @@
                     <a class="nav-link" href="{% url 'run_code' %}">Custom Test</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                    <a class="nav-link active" href="{% url 'profile' %}">Profile</a>
                 </li>
             </ul>
         </div>
     </nav>
-    <div class="profile-container">
-        <h1>{{ user.username }}'s Profile</h1>
+    <div class="profile-container mt-4">
         <div class="text-center">
-            {% if profile.profile_picture %}
-                <img src="{{ profile.profile_picture.url }}" class="profile-pic" alt="Profile Picture">
-            {% else %}
-                <div class="profile-pic">{{ user.username|first|upper }}</div>
-            {% endif %}
+            <h1>{{ user.username }}'s Profile</h1>
+            <div class="profile-pic">
+                {% if profile.profile_picture %}
+                    <img src="{{ profile.profile_picture.url }}" alt="Profile Picture">
+                {% else %}
+                    <div class="d-flex justify-content-center align-items-center">{{ user.username|first|upper }}</div>
+                {% endif %}
+            </div>
         </div>
-        <h3>Details</h3>
-        <p><strong>Username:</strong> {{ user.username }}</p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <p><strong>First Name:</strong> {{ user.first_name }}</p>
-        <p><strong>Last Name:</strong> {{ user.last_name }}</p>
-        <h3>Statistics</h3>
-        <p><strong>Total Submissions:</strong> {{ total_submissions }}</p>
-        <p><strong>Correct Submissions:</strong> {{ correct_submissions }}</p>
-        <p><strong>Wrong Submissions:</strong> {{ wrong_submissions }}</p>
-        <p><strong>Accuracy:</strong> {{ accuracy }}%</p>
-        <div class="chart-container">
-            <canvas id="submissionChart"></canvas>
+        <div class="details">
+            <h3>Details</h3>
+            <table class="table details-table">
+                <tr>
+                    <th>Username</th>
+                    <td>{{ user.username }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ user.email }}</td>
+                </tr>
+                <tr>
+                    <th>First Name</th>
+                    <td>{{ user.first_name }}</td>
+                </tr>
+                <tr>
+                    <th>Last Name</th>
+                    <td>{{ user.last_name }}</td>
+                </tr>
+            </table>
         </div>
-        <h3>Update Profile Picture</h3>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Upload</button>
-        </form>
+        <div class="statistics">
+            <h3>Statistics</h3>
+            <table class="table statistics-table">
+                <tr>
+                    <th>Total Submissions</th>
+                    <td>{{ total_submissions }}</td>
+                </tr>
+                <tr>
+                    <th>Correct Submissions</th>
+                    <td>{{ correct_submissions }}</td>
+                </tr>
+                <tr>
+                    <th>Wrong Submissions</th>
+                    <td>{{ wrong_submissions }}</td>
+                </tr>
+                <tr>
+                    <th>Accuracy</th>
+                    <td>{{ accuracy }}%</td>
+                </tr>
+            </table>
+            <div class="chart-container">
+                <canvas id="submissionChart"></canvas>
+            </div>
+        </div>
+        <div class="update-profile-picture">
+            <h3>Update Profile Picture</h3>
+            <form method="POST" enctype="multipart/form-data" class="mt-3">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </form>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
