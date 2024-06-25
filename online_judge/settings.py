@@ -103,6 +103,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LOGIN_URL = '/login/'
 
+CSRF_TRUSTED_ORIGINS = ['https://online-judge.me',]
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
