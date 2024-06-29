@@ -102,4 +102,4 @@ We welcome contributions from the community! To contribute:
 
 GitHub: [Devansh30032004](https://github.com/Devansh30032004)
 
-Website: [Online Judge](https://online-judge.me/)
+Website: [https://online-judge.me/](https://online-judge.me/)
